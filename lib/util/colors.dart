@@ -7,3 +7,4 @@ const orangeColor = Color(0xFFf2970f);
 const greyColor = Color(0xFFdcdedc);
 const darkGrey = Color(0xFF8c918d);
 const lowOrangeColor = Color(0xFFfcf3e6);
+const ayatBg = Color(0xFFfce6d2);

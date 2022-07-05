@@ -35,26 +35,96 @@ class _DetailSurahPageState extends State<DetailSurahPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                mySurah.idName,
-                style: TextStyle(
-                    color: orangeColor,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1,
-                    fontSize: 32),
-              ),
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    mySurah.idName,
+                    style: TextStyle(
+                        color: orangeColor,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1,
+                        fontSize: 32),
+                  ),
+                ),
+                SizedBox(height: 5),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      mySurah.asal,
+                      style: TextStyle(
+                          color: darkGrey,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400),
+                    )),
+                SizedBox(height: 10),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      mySurah.ayat.toString() + ' Ayat',
+                      style: TextStyle(
+                          color: orangeColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w800),
+                    )),
+              ],
             ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  mySurah.asal,
-                  style: TextStyle(
-                      color: darkGrey,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400),
-                )),
+            SizedBox(height: 20),
+            Expanded(
+                flex: 1,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ListView.separated(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                            decoration: BoxDecoration(
+                                color: ayatBg,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(8.0),
+                                    bottomLeft: Radius.circular(8.0))),
+                            child: Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Column(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            mySurah.ayatList[index].textArab,
+                                            textDirection: TextDirection.rtl,
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                letterSpacing: 2,
+                                                height: 2),
+                                          ),
+                                        )),
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            (index + 1).toString() +
+                                                '. ' +
+                                                mySurah
+                                                    .ayatList[index].textTrans,
+                                            textDirection: TextDirection.ltr,
+                                            style: TextStyle(
+                                                fontSize: 12, height: 2),
+                                          ),
+                                        ))
+                                  ],
+                                )));
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 15,
+                        );
+                      },
+                      itemCount: mySurah.ayat),
+                ))
           ],
         ),
       ),

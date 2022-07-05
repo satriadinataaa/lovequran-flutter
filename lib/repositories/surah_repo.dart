@@ -50,7 +50,8 @@ class SurahRepo {
             idName: rp['data']['asma']['id']['long'],
             number: rp['data']['number'],
             sequence: rp['data']['sequence'],
-            asal: rp['data']['type']['id']);
+            asal: rp['data']['type']['id'],
+            ayat: rp['data']['ayahCount']);
 
         for (var i = 0; i < rp['data']['ayahs'].length; i++) {
           var ayats = Ayat(
