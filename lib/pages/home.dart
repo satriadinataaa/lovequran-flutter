@@ -63,9 +63,9 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Selamat Datang',
+                'Hai, Apa kabar?',
                 style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: orangeColor),
               ),
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
                   )),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 20, bottom: 20, left: 20, right: 20),
+                              top: 10, bottom: 10, left: 20, right: 20),
                           child: Row(
                             children: [
                               DecoratedBox(
@@ -139,54 +139,47 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: Container(
-                                  // color: orangeColor,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        listSurah[index].idName,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      listSurah[index].idName,
+                                      textAlign: TextAlign.left,
+                                      textDirection: TextDirection.ltr,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: Text(
+                                        listSurah[index].asal,
                                         textAlign: TextAlign.left,
                                         textDirection: TextDirection.ltr,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black87),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: darkGrey),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 3),
-                                        child: Text(
-                                          listSurah[index].asal,
-                                          textAlign: TextAlign.left,
-                                          textDirection: TextDirection.ltr,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: darkGrey),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Expanded(
                                 flex: 1,
-                                child: Container(
-                                  // color: orangeColor,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        listSurah[index].arabName,
-                                        textAlign: TextAlign.left,
-                                        textDirection: TextDirection.rtl,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 30,
-                                            color: Colors.black87),
-                                      ),
-                                    ],
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      listSurah[index].arabName,
+                                      textAlign: TextAlign.left,
+                                      textDirection: TextDirection.rtl,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 30,
+                                          color: Colors.black87),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
