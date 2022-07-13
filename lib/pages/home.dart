@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:lovelyquran/pages/detail_surah.dart';
-import '../repositories/surah_repo.dart';
+import 'package:lovelyquran/viewModel/surah/surah_list_view_model.dart';
+import 'package:lovelyquran/widgets/list_surah.dart';
+import 'package:provider/provider.dart';
+import '../services/surah_repo.dart';
 import '../util/colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/surah.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,45 +13,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List listSurah = [];
   SurahRepo surahRepo = SurahRepo();
 
-  getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final counter = prefs.getString('surah') ?? 0;
-    if (counter == 0) {
-      listSurah = await surahRepo.getData();
-      await prefs.setString('surah', jsonEncode(listSurah));
+  fetchSurah(daftarSurah) {
+    if (daftarSurah.isEmpty) {
+      return Center(child: CircularProgressIndicator());
     } else {
-      var surah = counter;
-      late var daftarSurah = [];
-      var decodedList = json.decode(surah.toString());
-      late Surah s;
-      // listSurah = await surahRepo.decodedSurah(decodedList);
-      for (var i = 0; i < decodedList.length; i++) {
-        s = Surah(
-            number: decodedList[i]['number'],
-            sequence: decodedList[i]['sequence'],
-            arabName: decodedList[i]['arabName'],
-            idName: decodedList[i]['idName'],
-            asal: decodedList[i]['asal'],
-            ayat: decodedList[i]['ayat']);
-        daftarSurah.add(s);
-      }
-      listSurah = daftarSurah;
+      return ListSurah(listSurah: daftarSurah);
     }
-    setState(() {});
+  }
+
+  getData() {
+    Provider.of<SurahListViewModel>(context, listen: false).fetchData();
   }
 
   checkLocal() async {}
   @override
   void initState() {
-    getData();
     super.initState();
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final daftarSurah = Provider.of<SurahListViewModel>(context);
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -90,109 +74,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: lowOrangeColor,
-                child: ListView.separated(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailSurahPage(
-                                      number: listSurah[index].number)));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 10, left: 20, right: 20),
-                          child: Row(
-                            children: [
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                    color: orangeColor,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
-                                      // bottomLeft: Radius.circular(10),
-                                      // bottomRight: Radius.circular(10)
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    listSurah[index].number.toString(),
-                                    style: TextStyle(
-                                      color: white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      listSurah[index].idName,
-                                      textAlign: TextAlign.left,
-                                      textDirection: TextDirection.ltr,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 3),
-                                      child: Text(
-                                        listSurah[index].asal,
-                                        textAlign: TextAlign.left,
-                                        textDirection: TextDirection.ltr,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: darkGrey),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      listSurah[index].arabName,
-                                      textAlign: TextAlign.left,
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 30,
-                                          color: Colors.black87),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                      // child: Text(listSurah[index]['number'].toString()));
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
-                    itemCount: listSurah.length),
-              ),
-            )
+            Expanded(flex: 1, child: fetchSurah(daftarSurah.surahs))
           ])),
     ));
   }
