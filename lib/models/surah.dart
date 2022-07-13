@@ -11,6 +11,7 @@ class Surah {
   final String idName;
   final String asal;
   final int ayat;
+  final String url;
   List<Ayat> ayatList = [];
 
   Surah(
@@ -19,6 +20,7 @@ class Surah {
       this.arabName = "",
       this.idName = "",
       this.asal = "",
+      this.url = "",
       this.ayat = 0});
 
   setAyat(List<Ayat> ayatList) {

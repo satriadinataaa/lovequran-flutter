@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovelyquran/models/surah.dart';
 import '../repositories/surah_repo.dart';
 import '../util/colors.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class DetailSurahPage extends StatefulWidget {
   final int number;
@@ -18,6 +19,14 @@ class _DetailSurahPageState extends State<DetailSurahPage> {
   fetchData(seq) async {
     mySurah = await surahRepo.getSurahDetail(seq);
     // setState(() {});
+  }
+
+  play() async {
+    AudioPlayer player = AudioPlayer();
+    int result = await player.play(mySurah.url);
+    if (result == 1) {
+      // success
+    }
   }
 
   @override
@@ -63,15 +72,39 @@ class _DetailSurahPageState extends State<DetailSurahPage> {
                                   fontWeight: FontWeight.w600),
                             )),
                         SizedBox(height: 10),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              mySurah.ayat.toString() + ' Ayat',
-                              style: TextStyle(
-                                  color: orangeColor,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w800),
-                            )),
+                        Row(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  mySurah.ayat.toString() + ' Ayat',
+                                  style: TextStyle(
+                                      color: orangeColor,
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w800),
+                                )),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                    backgroundColor: orangeColor),
+                                onPressed: () {
+                                  play();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(3.0),
+                                  child: Text(
+                                    'Dengarkan sekarang',
+                                    style:
+                                        TextStyle(fontSize: 20, color: white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                     SizedBox(height: 20),
@@ -114,7 +147,9 @@ class _DetailSurahPageState extends State<DetailSurahPage> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    (index + 1).toString() +
+                                                    mySurah.ayatList[index]
+                                                            .ayatSurah
+                                                            .toString() +
                                                         '. ' +
                                                         mySurah.ayatList[index]
                                                             .textTrans,

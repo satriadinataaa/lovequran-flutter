@@ -31,13 +31,12 @@ class _HomePageState extends State<HomePage> {
       // listSurah = await surahRepo.decodedSurah(decodedList);
       for (var i = 0; i < decodedList.length; i++) {
         s = Surah(
-          number: decodedList[i]['number'],
-          sequence: decodedList[i]['sequence'],
-          arabName: decodedList[i]['arabName'],
-          idName: decodedList[i]['idName'],
-          asal: decodedList[i]['asal'],
-          ayat: decodedList[i]['ayat'],
-        );
+            number: decodedList[i]['number'],
+            sequence: decodedList[i]['sequence'],
+            arabName: decodedList[i]['arabName'],
+            idName: decodedList[i]['idName'],
+            asal: decodedList[i]['asal'],
+            ayat: decodedList[i]['ayat']);
         daftarSurah.add(s);
       }
       listSurah = daftarSurah;
